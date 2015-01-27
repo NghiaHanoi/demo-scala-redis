@@ -29,10 +29,13 @@ object ActorPlugin {
 class ActorPlugin(app: Application) extends Plugin {
 
   private def system = Akka.system(app)
-
+  
   override def onStart() = {    
       //comment out, use in actor cluster only  
       //system.actorOf(backend.UserManagerActor.props(), "userManager")    
+  }
+  override def onStop() = {
+    
   }
   
   private lazy val userManagerClient = system.actorOf(UserManagerClientActor.props(), "userManagerClient")

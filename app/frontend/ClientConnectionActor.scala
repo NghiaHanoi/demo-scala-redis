@@ -19,34 +19,28 @@ object ClientConnectionActor {
   case class SearchUserEvent(user:UserEntity) extends ClientEvent
   
   object ClientEvent{
-    //Implement JSON Serialize / Deserialize (required), need to implement Read or Format implicit method
+    //Implement JSON Serialize / Deserialize (required), need to implement 
+    //Read or Format implicit method
     implicit def clientEventFormat: Format[ClientEvent] = Format(
-        //Read function
+        //Read function, read from Json and parse event object
       (__ \ "event").read[String].flatMap {
         case "update-user" =>{
-          //return "["update-user", {id:"some Long", name:"some name String", age:"some Long"}]"
           val format:Format[UpdateUserEvent] = UpdateUserEvent.updateUserFormat
-          println(format) // for debugging
           format.map(identity)        
         } 
         case "create-user" => {
-         //return "["create-user", {id:"some Long", name:"some name String", age:"some Long"}]"
          val format:Format[CreateUserEvent] = CreateUserEvent.createUserFormat
-         println(format)//For debugging
          format.map(identity) 
         }
         case "delete-user" => {
-          //return "["update-user", [id:"some Long"]]"
          val format:Format[DeleteUserEvent] = DeleteUserEvent.deleteUserFormat
-         println(format)
          format.map(identity) 
         }
         case "list-user" =>{
-          val format:Format[ListUserEvent] = ListUserEvent.listUserFormat//return "["update-user", [id:"0"]]"
-          println(format)
+         val format:Format[ListUserEvent] = ListUserEvent.listUserFormat
          format.map(identity) 
         } 
-        case "search-user" => SearchUserEvent.searchUserFormat.map(identity)//return "["update-user", [id:"0"]]"
+        case "search-user" => SearchUserEvent.searchUserFormat.map(identity)
         case other => Reads(_ => JsError("Unknown client event: " + other))
       },
       //Write Function

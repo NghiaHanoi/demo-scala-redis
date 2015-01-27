@@ -2,17 +2,10 @@
 @main {
     <div class="container">
         <nav class="navbar navbar-default" role="navigation">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
+            <div class="navbar-header">                
                 <span class="navbar-brand">Reactive User Management</span>
             </div>
         </nav>
-
         <div data-bind="if: disconnected">
             <form role="form">
                 <div class="form-group">
@@ -20,18 +13,7 @@
                     <input type="input" class="form-control" data-bind="value: age" placeholder="User age"/>
                 </div>
             </form>
-            <button class="btn btn-primary" data-bind="click: connect">Connect</button>
-        </div>
-
-        <div data-bind="if: connecting">
-            <span data-bind="text: connecting"></span>
-        </div>
-		<!-- user display -->
-        <div class="row maps" data-bind="ifnot: disconnected">
-            <div data-bind="css: {'col-md-12': mockGps() == null, 'col-md-8': mockGps() != null}" id="map"></div>
-            <div class="mockGpsContainer col-md-4">
-                <div id="mockGps"></div>
-            </div>
+            <button class="btn btn-primary" data-bind="click: connect">Connect to Server</button>
         </div>
     </div>
 }

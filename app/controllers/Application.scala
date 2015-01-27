@@ -10,12 +10,12 @@ import frontend.ActorPlugin
 
 object Application extends Controller {
 
-  def index = Action {
+  def index = Action { implicit req =>
     Ok(views.html.index())
   }
   
   //upstream is WebsocketHandler Props instance
-  def ws = WebSocket.acceptWithActor[ClientEvent, ClientEvent] { _ => upstream =>
+  def ws(any:String) = WebSocket.acceptWithActor[ClientEvent, ClientEvent] { _ => upstream =>
     ClientConnectionActor.props(upstream, ActorPlugin.userManagerClient)
   }
 }
