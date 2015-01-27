@@ -118,14 +118,26 @@ object ClientConnectionActor {
   }
 }
 
-class ClientConnectionActor(upstream: ActorRef, UserManagerClient: ActorRef) extends Actor{
+class ClientConnectionActor(upstream: ActorRef, userManagerClient: ActorRef) extends Actor{
   import ClientConnectionActor._
   def receive = {
-    case UpdateUserEvent(user)=>{}
-    case CreateUserEvent(user)=>{}
-    case DeleteUserEvent(id)=>{}
-    case ListUserEvent =>{}
-    case SearchUserEvent(user)=>{}
-    case _ => //Nothing
+    case updateEvent @ UpdateUserEvent(user)=>{
+      userManagerClient.forward(updateEvent)      
+    }
+    case createEvent @ CreateUserEvent(user)=>{
+      userManagerClient.forward(createEvent)
+    }
+    case deleteEvent @ DeleteUserEvent(id)=>{
+      userManagerClient.forward(deleteEvent)
+    }
+    case listEvent @ ListUserEvent =>{
+      userManagerClient.forward(listEvent)
+    }
+    case searchEvent @ SearchUserEvent(user)=>{
+      userManagerClient.forward(searchEvent)
+    }
+    case _ => {//Invalid message
+      println("Invalid message sent from client Websocket!")
+    }
   }
 }

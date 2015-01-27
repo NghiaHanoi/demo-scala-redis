@@ -6,6 +6,6 @@ trait BaseDao[K, E]{
     def remove(k:K):E//deleted E
     def get(key:K):E //got E
     def update(c:E):E//new E
-    def search(c:Option[E], id:Option[K]):List[E]//matching List[E]
+    def search(e:E):List[E]//matching List[E]
 }
 

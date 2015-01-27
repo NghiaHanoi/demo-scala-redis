@@ -9,13 +9,12 @@ scalaVersion := "2.11.1"
 resolvers ++= Seq( 
 		"rediscala" at "http://dl.bintray.com/etaty/maven"
 		//,
-	  //"org.sedis" at "http://pk11-scratch.googlecode.com/svn/trunk"
+	    //"org.sedis" at "http://pk11-scratch.googlecode.com/svn/trunk"
  )
  
- 
-libraryDependencies ++= Seq(
+libraryDependencies ++= Seq( 
+  //"com.typesafe.akka" %% "akka-contrib" % "2.3.7",
   "net.debasishg" %% "redisclient" % "2.13",
-  "com.typesafe.akka" %% "akka-contrib" % "2.3.7",
   "org.webjars" % "bootstrap" % "3.0.0",
   "org.webjars" % "knockout" % "2.3.0",
   "org.webjars" % "requirejs" % "2.1.11-1",
@@ -26,3 +25,5 @@ libraryDependencies ++= Seq(
   cache,
   ws
 )
+
+scalacOptions += "-feature"

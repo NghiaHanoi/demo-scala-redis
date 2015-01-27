@@ -1,7 +1,7 @@
 package backend.dao
 import backend.entity.UserEntity
 
-class UserDao(id:Long, user:UserEntity ) extends BaseDao[Long, UserEntity]{
+class UserDao extends BaseDao[Long, UserEntity]{
   override def all():List[UserEntity] = {
     //redis for getting data from database 0 go here
     List(new UserEntity("0".asInstanceOf, "tets_name", 25))//Test
@@ -21,4 +21,7 @@ class UserDao(id:Long, user:UserEntity ) extends BaseDao[Long, UserEntity]{
   override def search:List[UserEntity] = {
     List(new UserEntity("0".asInstanceOf, "tets_name", 25))//Test
   }
+}
+object UserDao{
+  
 }

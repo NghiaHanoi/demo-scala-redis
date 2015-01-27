@@ -9,29 +9,24 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <span class="navbar-brand">Reactive Maps</span>
-            </div>
-            <div class="collapse navbar-collapse navbar-ex1-collapse">
-                <ul class="nav navbar-nav">
-                    <li data-bind="ifnot: disconnected, click: disconnect"><a href="#">Disconnect</a></li>
-                    <li data-bind="ifnot: disconnected, click: toggleMockGps, css: {active: mockGps() != null}"><a href="#">Mock GPS</a></li>
-                </ul>
+                <span class="navbar-brand">Reactive User Management</span>
             </div>
         </nav>
 
         <div data-bind="if: disconnected">
             <form role="form">
                 <div class="form-group">
-                    <input type="email" class="form-control" data-bind="value: email" placeholder="Email address"/>
+                    <input type="input" class="form-control" data-bind="value: name" placeholder="User name"/>
+                    <input type="input" class="form-control" data-bind="value: age" placeholder="User age"/>
                 </div>
             </form>
-            <button class="btn btn-primary" data-bind="click: submitEmail">Connect</button>
+            <button class="btn btn-primary" data-bind="click: connect">Connect</button>
         </div>
 
         <div data-bind="if: connecting">
             <span data-bind="text: connecting"></span>
         </div>
-
+		<!-- user display -->
         <div class="row maps" data-bind="ifnot: disconnected">
             <div data-bind="css: {'col-md-12': mockGps() == null, 'col-md-8': mockGps() != null}" id="map"></div>
             <div class="mockGpsContainer col-md-4">

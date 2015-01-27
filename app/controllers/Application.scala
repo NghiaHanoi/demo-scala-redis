@@ -11,7 +11,7 @@ import frontend.ActorPlugin
 object Application extends Controller {
 
   def index = Action {
-    Ok(views.html.index("Welcome to demo Scala - Play- Redis application"))
+    Ok(views.html.index())
   }
   
   //upstream is WebsocketHandler Props instance
