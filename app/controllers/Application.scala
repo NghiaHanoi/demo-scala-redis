@@ -15,7 +15,9 @@ object Application extends Controller {
   }
   
   //upstream is WebsocketHandler Props instance
-  def ws(any:String) = WebSocket.acceptWithActor[ClientEvent, ClientEvent] { _ => upstream =>
+  def ws(any:String) = WebSocket.acceptWithActor[ClientEvent, ClientEvent] { _ => upstream =>{
+    println("----------------------------Start websocket $any")
     ClientConnectionActor.props(upstream, ActorPlugin.userManagerClient)
+    } 
   }
 }

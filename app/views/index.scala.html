@@ -9,12 +9,22 @@
         <div>
             <form role="form">
                 <div>
-                    <input type="input" class="form-control" data-bind="value: name" placeholder="User name"/>
-                    <input type="input" class="form-control" data-bind="value: age" placeholder="User age"/>
+                    <span style="width:200px">User name</span><input type="input" style="width:200px" class="form-control" data-bind="value: name" placeholder="User name"/>
+                    <span style="width:200px">User age</span><input type="input" style="width:200px" class="form-control" data-bind="value: age" placeholder="User age"/>
                     <input type="hidden" class="form-control" data-bind="value: id"/>
                 </div>
-            </form>
-            <button data-bind="click: connect">Connect to Server</button>
+                <button data-bind="click: createOrUpdate" class="app-button" style="margin-top:10px; width:200px">Send</button>
+            </form>                 
+        </div>
+        <div style="margin-top:5px; margin-bottom:5px">
+            <span data-bind="text: name"></span><span data-bind="text: age"></span>
+        </div>
+        <div data-bind="if: connecting" style="margin-top:5px; margin-bottom:5px">
+            <span data-bind="text: connecting"></span>
+        </div>
+        <div data-bind="if: disconnected">
+            <span data-bind="text: disconnected"></span>
+            <button data-bind="click: connect" style="margin-top:10px;width:200px"  class="app-button">Re-connect</button>
         </div>
     </div>
 }

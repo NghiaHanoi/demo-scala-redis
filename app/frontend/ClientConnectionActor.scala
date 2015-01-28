@@ -25,18 +25,22 @@ object ClientConnectionActor {
         //Read function, read from Json and parse event object
       (__ \ "event").read[String].flatMap {
         case "update-user" =>{
+          println("--------------------------update-user")
           val format:Format[UpdateUserEvent] = UpdateUserEvent.updateUserFormat
           format.map(identity)        
         } 
         case "create-user" => {
+         println("--------------------------create-user")
          val format:Format[CreateUserEvent] = CreateUserEvent.createUserFormat
          format.map(identity) 
         }
         case "delete-user" => {
+         println("--------------------------delete-user")
          val format:Format[DeleteUserEvent] = DeleteUserEvent.deleteUserFormat
          format.map(identity) 
         }
         case "list-user" =>{
+         println("--------------------------list-user")
          val format:Format[ListUserEvent] = ListUserEvent.listUserFormat
          format.map(identity) 
         } 
@@ -45,10 +49,14 @@ object ClientConnectionActor {
       },
       //Write Function
       Writes {
-        case u: UpdateUserEvent => UpdateUserEvent.updateUserFormat.writes(u)
+        case u: UpdateUserEvent => {
+         println("--------------------------list-user")
+         UpdateUserEvent.updateUserFormat.writes(u) 
+        }
         case c: CreateUserEvent => CreateUserEvent.createUserFormat.writes(c)
         case d: DeleteUserEvent => DeleteUserEvent.deleteUserFormat.writes(d)
         case l: ListUserEvent   => ListUserEvent.listUserFormat.writes(l)
+        case other => Json.toJson(s"[{'Error':'invalide message $other.toString()'}]")
       }
     )
     //Implicit method required by Application Controller to format WebsocketFrame 
@@ -87,8 +95,8 @@ object ClientConnectionActor {
         (__ \ "user").format[Long]
       ).apply(
           {
-            case ("update-user", userId) => DeleteUserEvent(userId)
-          }, deleteUserEvent => ("update-user", deleteUserEvent.id)
+            case ("delete-user", userId) => DeleteUserEvent(userId)
+          }, deleteUserEvent => ("delete-user", deleteUserEvent.id)
     )
   }
   object ListUserEvent {
@@ -97,7 +105,7 @@ object ClientConnectionActor {
         (__ \ "user").format[Long]//should be zero
       ).apply(
           {
-            case ("update-user", 0) => ListUserEvent()
+            case ("list-user", 0) => ListUserEvent()
           }, listuserEvent => ("list-user", 0)
     )
   }
@@ -107,7 +115,7 @@ object ClientConnectionActor {
         (__ \ "user").format[UserEntity]
       ).apply(
           {  case ("search-user", user) => SearchUserEvent(user)
-          }, searchEvent => ("user-positions", searchEvent.user)
+          }, searchEvent => ("search-user", searchEvent.user)
     )
   }
 }
