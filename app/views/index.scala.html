@@ -11,22 +11,27 @@
         <div>
             <form role="form">
                 <div>
-                    <span style="width:200px">User name</span><input type="input" style="width:200px" class="form-control" data-bind="value: name" placeholder="User name"/>
-                    <span style="width:200px">User age</span><input type="input" style="width:200px" class="form-control" data-bind="value: age" placeholder="User age"/>
-                    <input type="hidden" class="form-control" data-bind="value: id"/>
+                    <span style="width:200px">User name</span><input type="input" style="width:200px" class="form-control" data-bind="value: username, valueUpdate:'afterkeydown'" placeholder="User name"/>
+                    <span style="width:200px">User age</span><input type="input" style="width:200px" class="form-control" data-bind="value: age, valueUpdate:'afterkeydown'" placeholder="User age"/>
+                    <input type="hidden" class="form-control" data-bind="value: userid" value="-1"/>
                 </div>
+                <div style="margin-top:5px; margin-bottom:5px">
+		            <span data-bind="text: username"></span> - <span data-bind="text: age"></span><br/>
+		            <span data-bind="text: userJson"></span>
+		        </div>
                 <button data-bind="click: createOrUpdate" class="app-button" style="margin-top:10px; width:200px">Submit</button>
             </form>                 
-        </div>
-        <div style="margin-top:5px; margin-bottom:5px">
-            <span data-bind="text: name"></span> - <span data-bind="text: age"></span>
-        </div>
+        </div>        
         <div data-bind="if: connecting" style="margin-top:5px; margin-bottom:5px">
             <span data-bind="text: connecting"></span>
         </div>
-        <div data-bind="if: disconnected">
-            <span data-bind="text: disconnected"></span>
+        <div data-bind="if: disconnected" style="visibility:hidden">            
             <button data-bind="click: connect" style="margin-top:10px;width:200px"  class="app-button">Re-connect</button>
+            <span style="width:200px;margin-left:10px">Server disconnected</span>
+        </div>
+        <!-- Display list user table -->
+        <div id="userData" data-bind="if: disconnected">
+            <span style="width:200px">User List Panel</span>
         </div>
     </div>
 }

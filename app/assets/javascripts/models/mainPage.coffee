@@ -3,8 +3,10 @@ define ["knockout"], (ko) ->
   class MainPageModel
     constructor: () ->
       # user id
-      @id = ko.observable()
-      @name = ko.observable()
+      @userid = ko.observable()
+      #user name
+      @username = ko.observable()
+      #user age
       @age = ko.observable()
       
       # connecting or reconnecting sessage
@@ -13,19 +15,24 @@ define ["knockout"], (ko) ->
       
       # close flag
       @closing = false
-    
+      
     # The user submit for create user
-    createOrUpdate: (user) ->      
-      if(self.disconnected)
+    createOrUpdate: (u) ->  #u is an instance of MainPageModel    
+      if(@disconnected())
         @connect()
-      user = JSON.parse "[]"
-      # Send the user to server for update as non-blocking way
-      @ws.send(JSON.stringify
-        event: "user-create"
-        user:
-          type: "User"
-         coodinates: [position.coords.longitude, position.coords.latitude]
-      )
+      if(@userid == "-1")
+        # Send the user to server for create as non-blocking way
+        @ws.send(JSON.stringify
+          event: "user-create"
+          user:@userJson
+        )
+      else
+        # Send the user to server for update as non-blocking way
+        @ws.send(JSON.stringify
+          event: "user-update"
+          user:@userJson
+        )
+        
               
     # TODO implement   
     recvAllUser: ->
@@ -59,7 +66,7 @@ define ["knockout"], (ko) ->
         # Event including: update-user, delete-user, create-user, list-user, search-user
       @ws.onmessage = (event) => 
         json = JSON.parse(event.data)
-        if json.event == "user-create" 
+        if json.event == "user-create"          
           @recvCreateUser()
         if json.event == "user-list"
           @recvAllUser()
