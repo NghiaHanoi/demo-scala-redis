@@ -1,5 +1,7 @@
 @()(implicit req: RequestHeader)
+
 @main {
+	
     <div class="container">
         <nav class="navbar navbar-default" role="navigation">
             <div class="navbar-header">                
@@ -13,11 +15,11 @@
                     <span style="width:200px">User age</span><input type="input" style="width:200px" class="form-control" data-bind="value: age" placeholder="User age"/>
                     <input type="hidden" class="form-control" data-bind="value: id"/>
                 </div>
-                <button data-bind="click: createOrUpdate" class="app-button" style="margin-top:10px; width:200px">Send</button>
+                <button data-bind="click: createOrUpdate" class="app-button" style="margin-top:10px; width:200px">Submit</button>
             </form>                 
         </div>
         <div style="margin-top:5px; margin-bottom:5px">
-            <span data-bind="text: name"></span><span data-bind="text: age"></span>
+            <span data-bind="text: name"></span> - <span data-bind="text: age"></span>
         </div>
         <div data-bind="if: connecting" style="margin-top:5px; margin-bottom:5px">
             <span data-bind="text: connecting"></span>

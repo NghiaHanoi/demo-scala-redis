@@ -1,12 +1,9 @@
 package controllers
 
-import play.api._
 import play.api.mvc._
-import frontend.ClientConnectionActor
-import frontend.ClientConnectionActor.ClientEvent
+import frontend.{ClientConnectionActor, ActorPlugin}
 import play.api.Play.current
-import akka.actor.{Props, ActorRef, Actor}
-import frontend.ActorPlugin
+import frontend.ClientConnectionActor.ClientEvent
 
 object Application extends Controller {
 
@@ -15,8 +12,7 @@ object Application extends Controller {
   }
   
   //upstream is WebsocketHandler Props instance
-  def ws(any:String) = WebSocket.acceptWithActor[ClientEvent, ClientEvent] { _ => upstream =>{
-    println("----------------------------Start websocket $any")
+  def userws() = WebSocket.acceptWithActor[ClientEvent, ClientEvent] { _ => upstream =>{
     ClientConnectionActor.props(upstream, ActorPlugin.userManagerClient)
     } 
   }

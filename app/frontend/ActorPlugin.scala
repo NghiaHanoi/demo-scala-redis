@@ -32,7 +32,7 @@ class ActorPlugin(app: Application) extends Plugin {
   
   override def onStart() = {    
       //comment out, use in actor cluster only  
-      //system.actorOf(backend.UserManagerActor.props(), "userManager")    
+      system.actorOf(backend.UserManagerActor.props(), "userManager")    
   }
   override def onStop() = {
     

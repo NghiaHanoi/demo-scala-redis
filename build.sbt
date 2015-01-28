@@ -19,10 +19,8 @@ libraryDependencies ++= Seq(
   "org.webjars" % "requirejs" % "2.1.11-1",
   "org.webjars" % "leaflet" % "0.7.2",
   "org.webjars" % "rjs" % "2.1.11-1-trireme" % "test",
-  "com.etaty.rediscala" %% "rediscala" % "1.3.1",
-  //"com.typesafe" %% "play-plugins-redis" % "2.1.1",
-  cache,
-  ws
+  "com.etaty.rediscala" %% "rediscala" % "1.3.1"
+  //,"com.typesafe" %% "play-plugins-redis" % "2.1.1"
 )
 
 scalacOptions += "-feature"
