@@ -20,8 +20,8 @@ define ["knockout"], (ko) ->
       
     # The user submit for create user
     createOrUpdate: (u) ->    
-      if(@disconnected())
-        @connect()
+      #if(@disconnected())
+      #  @connect()
       if(typeof @userid() == 'undefined')
         # Send the user to server for create as non-blocking way
         @ws.send(JSON.stringify
