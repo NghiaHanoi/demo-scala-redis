@@ -6,14 +6,15 @@
                 <span class="navbar-brand">Reactive User Management</span>
             </div>
         </nav>
-        <div data-bind="if: disconnected">
+        <div>
             <form role="form">
-                <div class="form-group">
+                <div>
                     <input type="input" class="form-control" data-bind="value: name" placeholder="User name"/>
                     <input type="input" class="form-control" data-bind="value: age" placeholder="User age"/>
+                    <input type="hidden" class="form-control" data-bind="value: id"/>
                 </div>
             </form>
-            <button class="btn btn-primary" data-bind="click: connect">Connect to Server</button>
+            <button data-bind="click: connect">Connect to Server</button>
         </div>
     </div>
 }

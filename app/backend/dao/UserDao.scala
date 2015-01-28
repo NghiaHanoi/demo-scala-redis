@@ -1,19 +1,15 @@
 package backend.dao
 import backend.entity.UserEntity
-import redis.RedisClient
 import scala.concurrent.Await
 import scala.concurrent.duration._
 import scala.concurrent.ExecutionContext.Implicits.global
 import redis.RedisClient
 import akka.util.ByteString
 import play.api.libs.json._
-import scala.collection.immutable.Map
-import scala.collection.immutable.List
-import redis.api.strings.Incr
 import redis.api.strings.Incr
 
 /**
- * Hard code for testing purpose
+ * Data Access Object for user application
  * @author nghia
  *
  */
@@ -111,41 +107,91 @@ class UserDao extends BaseDao[Long, UserEntity]{
     newIdLong    
   }
   def remove(key:Long):UserEntity ={
+    //1. Remove key data from "use:<id>:data"
+    //2. Remove key in "user:all"
+    //3. Decrease id in "usr:id"
+    val userDatKey:String = userDataKey(key)
     val redis = new RedisClient()
-    val delFuture = redis.del(key.toString())
+    val tx = redis.transaction()
+    tx.watch(key.toString())
+    //step-1
+    val delFuture = tx.del(userDatKey)
     var retUser:UserEntity = null
     delFuture.onSuccess({
       case s =>
-      println(s"Delete user $key successfully")
-      retUser = get(key)      
+      println(s"Delete userDatKey $userDatKey successfully")
+      //step-2 
+      val delUserId = tx.del(key.toString())
+      delUserId.onSuccess({
+        case s =>
+          val decFu = tx.decr(userIdKey)
+         decFu.onSuccess({
+           case s =>
+             //do nothing
+         })
+          retUser = get(key)         
+      })
+      delUserId.onFailure({
+        case t =>
+         println(s"Error remove user id from usr:all $t")
+      })
+      
     })
     delFuture.onFailure({
       case t =>
       println(s"Delete user $key failed, cause by $t")
       
     })    
+    tx.exec()
     retUser
   }
   def get(key:Long):UserEntity = {
-    val redis = new RedisClient()
-    val getFu = redis.get(key.toString())
+    //Step-1: build up user data key and get value from "user:<id>:data"
+    //Step-2: Parse json value to UserEntity
+    val redis = new RedisClient()    
+    val uDatKey = userDataKey(key)
+    val getFu = redis.get(uDatKey)  
+    var userEnt:UserEntity = null
     getFu.onSuccess({
       case s =>
-      //TODO to be continue
+      //Step-2 : parse Json to entity
+      val userJson:String = s.toString()
+      userEnt = Json.fromJson[UserEntity](Json.parse(userJson)).get
     })
     getFu.onFailure({
       case t =>
-      println(s"Get user $key failed, cause by $t")      
+      println(s"Get user $key failed, cause by $t")
+      return null
     })
-    new UserEntity("0".asInstanceOf, "tets_name", 25)
+    userEnt
   }
-  def update(c:UserEntity):UserEntity = {
-    //TODO Implement to override the hard code 
-    new UserEntity("0".asInstanceOf, "tets_name", 25)
+  def update(u:UserEntity):UserEntity = {
+    //Step-1 build key then build Json String value for key "user:<id>:data" from input parameter
+    //Step-2 use HMSET to update the key
+    val redis = new RedisClient()
+    val tx = redis.transaction()
+    val uDatKey = userDataKey(u.id)
+    val userDetailValue = s"{'id':'$u.id','name':'$u.name','age':'$u.age'}"
+    var ret:UserEntity = null
+    tx.watch(uDatKey)
+    val fuUpdate = tx.hmset(uDatKey, Map("id" ->u.id.toString(),"name"->u.name, "age" -> u.age.toString()))
+    fuUpdate.onComplete { x => 
+      if(x.get == true) ret = u        
+     }
+    tx.exec()
+    ret
   }
-  def search(user:UserEntity):List[UserEntity] = {
-    //TODO Implement to override the hard code
-    List(new UserEntity("0".asInstanceOf, "tets_name", 25))
+  def search(u:UserEntity):List[UserEntity] = {
+    var retList:List[UserEntity] = List[UserEntity]()
+    val allEntity = all()
+    val t = for {
+      e <- allEntity
+      e2 <- allEntity if (  (u.id > 0 && u.id == e.id)
+          || (!u.name.equals("-1") && e.name.equals(u.name))
+          || (u.age > 0 && e.age == u.age)
+          )
+    } yield {retList ++ List(e2)}
+    retList
   }
 }
 object UserDao{  
