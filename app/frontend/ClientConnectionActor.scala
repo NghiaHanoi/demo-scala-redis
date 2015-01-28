@@ -56,7 +56,9 @@ object ClientConnectionActor {
     )
     //Implicit method required by Application Controller to format WebsocketFrame 
     implicit def clientEventFrameFormatter: FrameFormatter[ClientEvent] = FrameFormatter.jsonFrame.transform(
-      clientEvent => Json.toJson(clientEvent),
+      clientEvent => {
+        Json.toJson(clientEvent)
+      },
       json => Json.fromJson[ClientEvent](json).fold(
         invalid => throw new RuntimeException("Bad client event on WebSocket: " + invalid),
         valid => valid

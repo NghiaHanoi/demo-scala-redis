@@ -1,4 +1,19 @@
-This is your new Play application
-=================================
+This is a demo Scala + Play + Redis application
+===============================================
 
 This file will be packaged with your application, when using `activator dist`.
+Require:
+- SBT 0.13.x
+- Scala 2.11.4
+- Play - newest version
+- Redis 2.8.4
+Usage:
+1. ./activator clean compile ~run 
+or with remote debug enabled: ./activator -jvm-debug <your-port-number> clean compile ~run
+2. Once done, access application web URL: http://localhost:9000
+3. Connect to websocket through clicking re-connect
+4. Input new user name and age then submit the form.
+   new user will be added to DB and appear on the list of user on the screen.
+   
+   Known Bug:
+   Message sending from client is not compatible with server validation. 

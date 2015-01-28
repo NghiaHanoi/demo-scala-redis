@@ -26,7 +26,7 @@ define ["knockout"], (ko) ->
         # Send the user to server for create as non-blocking way
         @ws.send(JSON.stringify
           event: "user-create"
-          user: @userJson
+          user: @userJson()
         )
       else
         # Send the user to server for update as non-blocking way
