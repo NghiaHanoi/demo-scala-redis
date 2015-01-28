@@ -13,10 +13,9 @@
                 <div>
                     <span style="width:200px">User name</span><input type="input" style="width:200px" class="form-control" data-bind="value: username, valueUpdate:'afterkeydown'" placeholder="User name"/>
                     <span style="width:200px">User age</span><input type="input" style="width:200px" class="form-control" data-bind="value: age, valueUpdate:'afterkeydown'" placeholder="User age"/>
-                    <input type="hidden" class="form-control" data-bind="value: userid" value="-1"/>
+                    <input type="hidden" class="form-control" data-bind="value: userid"/>
                 </div>
-                <div style="margin-top:5px; margin-bottom:5px">
-		            <span data-bind="text: username"></span> - <span data-bind="text: age"></span><br/>
+                <div style="margin-top:5px; margin-bottom:5px">		            
 		            <span data-bind="text: userJson"></span>
 		        </div>
                 <button data-bind="click: createOrUpdate" class="app-button" style="margin-top:10px; width:200px">Submit</button>
@@ -25,7 +24,7 @@
         <div data-bind="if: connecting" style="margin-top:5px; margin-bottom:5px">
             <span data-bind="text: connecting"></span>
         </div>
-        <div data-bind="if: disconnected" style="visibility:hidden">            
+        <div data-bind="if: disconnected">            
             <button data-bind="click: connect" style="margin-top:10px;width:200px"  class="app-button">Re-connect</button>
             <span style="width:200px;margin-left:10px">Server disconnected</span>
         </div>

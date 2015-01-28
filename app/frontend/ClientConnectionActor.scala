@@ -25,22 +25,18 @@ object ClientConnectionActor {
         //Read function, read from Json and parse event object
       (__ \ "event").read[String].flatMap {
         case "update-user" =>{
-          println("--------------------------update-user")
           val format:Format[UpdateUserEvent] = UpdateUserEvent.updateUserFormat
           format.map(identity)        
         } 
         case "create-user" => {
-         println("--------------------------create-user")
          val format:Format[CreateUserEvent] = CreateUserEvent.createUserFormat
          format.map(identity) 
         }
         case "delete-user" => {
-         println("--------------------------delete-user")
          val format:Format[DeleteUserEvent] = DeleteUserEvent.deleteUserFormat
          format.map(identity) 
         }
         case "list-user" =>{
-         println("--------------------------list-user")
          val format:Format[ListUserEvent] = ListUserEvent.listUserFormat
          format.map(identity) 
         } 
@@ -50,7 +46,6 @@ object ClientConnectionActor {
       //Write Function
       Writes {
         case u: UpdateUserEvent => {
-         println("--------------------------list-user")
          UpdateUserEvent.updateUserFormat.writes(u) 
         }
         case c: CreateUserEvent => CreateUserEvent.createUserFormat.writes(c)

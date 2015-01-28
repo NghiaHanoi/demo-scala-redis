@@ -15,26 +15,26 @@ define ["knockout"], (ko) ->
       
       # close flag
       @closing = false
+      @update = false
+       
       
     # The user submit for create user
-    createOrUpdate: (u) ->  #u is an instance of MainPageModel    
+    createOrUpdate: (u) ->    
       if(@disconnected())
         @connect()
-      if(@userid == "-1")
+      if(typeof @userid() == 'undefined')
         # Send the user to server for create as non-blocking way
         @ws.send(JSON.stringify
           event: "user-create"
-          user:@userJson
+          user: @userJson
         )
       else
         # Send the user to server for update as non-blocking way
         @ws.send(JSON.stringify
           event: "user-update"
-          user:@userJson
-        )
-        
+          user: @userJson()
+        )      
               
-    # TODO implement   
     recvAllUser: ->
       @connect()
     

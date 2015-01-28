@@ -26,6 +26,7 @@ require.config {
 require ["knockout", "mainPage", "bootstrap"], (ko, MainPageModel) ->
 
   model = new MainPageModel
-  model.userJson = ko.dependentObservable(() => JSON.parse "[{\"id\":\"" +model.userid() + "\", \"name\":\"" + model.username()+"\", \"age\":\""+model.age()+"\"}]")                                                
+  #model.userJson = ko.dependentObservable(() => JSON.parse "{\"id\":\"" +model.userid() + "\", \"name\":\"" + model.username()+"\", \"age\":\""+model.age()+"\"}")                                                
+  model.userJson = ko.dependentObservable(() => "{\"id\":\"" +model.userid() + "\", \"name\":\"" + model.username()+"\", \"age\":\""+model.age()+"\"}")
   ko.applyBindings(model)
 
