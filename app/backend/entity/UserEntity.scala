@@ -2,16 +2,17 @@ package backend.entity
 import play.api.libs.json._
 import play.api.libs.functional.syntax._
 
-//a Companion Object
+
 case class UserEntity(id:Long, name:String, age:Int)
+//a user Companion Object
 object UserEntity{  
-  val userReads: Reads[UserEntity] = (
+  def userReads: Reads[UserEntity] = (
   (__ \ "id").read[Long] and
   (__ \ "name").read[String] and
   (__ \ "age").read[Int]
 )(UserEntity.apply _)
 
-val userWrites: Writes[UserEntity] = (
+def userWrites: Writes[UserEntity] = (
   (__ \ "id").write[Long] and
   (__ \ "name").write[String] and
   (__ \ "age").write[Int]

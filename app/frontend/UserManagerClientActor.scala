@@ -4,7 +4,7 @@ import akka.actor.Actor
 import akka.actor.Props
 import backend.dao.UserDao
 import frontend.ClientConnectionActor.{ClientEvent,UpdateUserEvent,CreateUserEvent, DeleteUserEvent, ListUserEvent, SearchUserEvent }
-
+import scala.concurrent.ExecutionContext.Implicits.global
 class UserManagerClientActor extends Actor {
   import UserManagerClientActor._
   def receive = {
@@ -21,8 +21,18 @@ class UserManagerClientActor extends Actor {
       sender ! ret //send updated user back to client
     }
     case ListUserEvent =>{
-      val ret = userDao.all()
-      sender ! ret //send updated user back to client
+      val uIdListFu = userDao.allUserId()
+      uIdListFu.onSuccess(
+      {
+        case x =>{
+          val ret = userDao.all(x)
+          //TODO implement
+          //sender ! ret //send updated user back to client
+        }
+      }
+    )
+      
+      
     }
     case SearchUserEvent(user)=>{
       val ret = userDao.search(user)

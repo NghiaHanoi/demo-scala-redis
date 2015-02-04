@@ -14,6 +14,8 @@ resolvers ++= Seq(
 libraryDependencies ++= Seq( 
   //"com.typesafe.akka" %% "akka-contrib" % "2.3.7",
   //"net.debasishg" %% "redisclient" % "2.13",
+  "org.scalatest" % "scalatest_2.11" % "2.2.1" % "test",
+  "org.seleniumhq.selenium" % "selenium-java" % "2.35.0" % "test",
   "org.webjars" % "bootstrap" % "3.0.0",
   "org.webjars" % "knockout" % "2.3.0",
   "org.webjars" % "requirejs" % "2.1.11-1",
