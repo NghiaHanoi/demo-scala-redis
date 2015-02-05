@@ -7,7 +7,7 @@ lazy val root = (project in file(".")).enablePlugins(PlayScala)
 scalaVersion := "2.11.1"
 
 resolvers ++= Seq( 
-		"rediscala" at "http://dl.bintray.com/etaty/maven" //Rediscala repo		
+		"rediscala" at "http://dl.bintray.com/etaty/maven" //Rediscala repo
 	    //,"org.sedis" at "http://pk11-scratch.googlecode.com/svn/trunk"
  )
  

@@ -60,11 +60,18 @@ run
 or you can combine as many as you can:
 ./activator compile test run
 or 
-./activator reload compile test ~run
+./activator -jvm-debug 9999 
+reload 
+compile 
+test 
+~run
 3. For supporting eclipse project you could do:
 ./activator 
 eclipse with-source=true
 After that you can import eclipse project from project folder with new .project and .classpath files
+
+After running the application, you can access the main page by URL:
+http://localhost:9000
 
 NOTICE: All of above are supposed that you are working in Linux environment.
 VI.2. Configure 

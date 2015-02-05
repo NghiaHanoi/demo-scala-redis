@@ -1,5 +1,4 @@
 define ["knockout"], (ko) ->
-
   class MainPageModel
     constructor: () ->
       # user id
@@ -15,8 +14,7 @@ define ["knockout"], (ko) ->
       
       # close flag
       @closing = false
-      @update = false
-       
+      @update = false       
       
     # The user submit for create user
     createOrUpdate: (u) ->    
@@ -63,7 +61,8 @@ define ["knockout"], (ko) ->
         else
           @disconnected(true)
           @closing = false  
-        # Event including: update-user, delete-user, create-user, list-user, search-user
+        # Event including: update-user, delete-user, 
+        # create-user, list-user, search-user
       @ws.onmessage = (event) => 
         json = JSON.parse(event.data)
         if json.event == "user-create"          

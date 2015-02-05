@@ -17,11 +17,14 @@ class DeletingUserFeatureSpec extends BaseAcceptanceSpec {
     val lastUIdFuture = udao.getLastestId()
     lastUIdFuture.onSuccess({
       case s => {
-        Then("On success getting last user id, delete the last user from Redis")
+        When("success getting last user id")
+        Then("delete the last user from Redis")
         val delUserFuture = udao.remove(s.value.toLong)
         delUserFuture.onSuccess({
           case s2 => {
-            When("Delete user success, get the user from DB with the user id, to make sure user does not exist")
+            When("Delete user success")
+            Then("get the user from DB with the user id")
+            Then("to make sure user does not exist")
             val getUserFuture = udao.get(s.value.toLong)
             getUserFuture.onSuccess({
               case s3 =>

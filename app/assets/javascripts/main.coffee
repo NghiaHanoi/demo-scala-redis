@@ -1,6 +1,7 @@
-#
-# The main entry point into the client side. Creates a new main page model and binds it to the page.
-#
+###############################################################################
+# The main entry point into the client side. Creates a new main page model and 
+# binds it to the page.
+###############################################################################
 require.config {
   paths: {
     mainPage: "./models/mainPage"
@@ -26,7 +27,9 @@ require.config {
 require ["knockout", "mainPage", "bootstrap"], (ko, MainPageModel) ->
 
   model = new MainPageModel
-  #model.userJson = ko.dependentObservable(() => JSON.parse "{\"id\":\"" +model.userid() + "\", \"name\":\"" + model.username()+"\", \"age\":\""+model.age()+"\"}")                                                
-  model.userJson = ko.dependentObservable(() => "[\"id\":\"" +model.userid() + "\", \"name\":\"" + model.username()+"\", \"age\":\""+model.age()+"\"]")
+  # model.userJson = ko.dependentObservable(() => JSON.parse "{\"id\":\"" 
+  # +model.userid() + "\", \"name\":\"" + model.username()
+  # +"\", \"age\":\""+model.age()+"\"}")                                                
+  model.userJson = ko.dependentObservable(() => "[\"id\":\"" +model.userid() 
+  + "\", \"name\":\"" + model.username()+"\", \"age\":\""+model.age()+"\"]")
   ko.applyBindings(model)
-
